@@ -1,0 +1,20 @@
+*.rar
+*.bak
+*Zone.Identifier
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Build
+dist/
+build/
