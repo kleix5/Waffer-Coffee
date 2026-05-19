@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВаффлеВиль — магазин вафель</title>
+    <link rel="stylesheet" href="styles/indexStyle.css" />
+</head>
+<body>
+
+    <!-- ШАПКА САЙТА -->
+    <header class="header">
+        <div class="header-inner">
+            <!-- Левая часть: логотип + текст -->
+            <div class="header-left">
+                <a href="/" class="logo-link">
+                    <!--Go-->
+                    <img src="image/logo.png" alt="Логотип ВаффлеВиль" class="logo-img">
+                </a>
+                <span class="brand-name">ВаффлеВиль</span>
+            </div>
+
+            <!-- Поиск --><!--Go-->
+            <div class="header-center">
+                <form class="search-form" action="/search" method="GET">
+                    <input type="text" class="search-input" placeholder="Поиск вафель..." name="q">
+                    <button type="submit" class="search-button">
+                        <img src="image/loop.jpg" alt="Найти" class="search-icon">
+                    </button>
+                </form>
+            </div>
+            <!-- Правая часть --><!--Go-->
+            <div class="header-right">
+                <!-- Кнопка 1: о нас -->
+                <button class="icon-btn about-btn" id="aboutBtn">
+                    <img src="image/logo.png" alt="О нас" class="icon-img">
+                </button>
+
+                <!-- Кнопка 2: корзина -->
+                <button class="icon-btn" id="cartBtn">
+                    <img src="image/logo.png" alt="Корзина" class="icon-img">
+                </button>
+
+                <!-- Кнопка 3: выпадающее меню -->
+                <div class="dropdown">
+                    <button class="icon-btn" id="menuBtn">
+                        <img src="image/logo.png" alt="Меню" class="icon-img">
+                    </button>
+                    <div class="dropdown-content" id="dropdownMenu">
+                        <a href="/settings">⚙️ Настройки</a>
+                        <a href="/delivery">🚚 Доставка</a>
+                        <a href="/account">👤 Аккаунт</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main class="content">
+        <h1>Добро пожаловать в ВаффлеВиль!</h1>
+        <p>Здесь будут вафли, описание товаров и всё остальное.</p>
+        <p style="margin-top: 20px;">Прокрутите страницу — шапка всегда остаётся сверху.</p>
+    </main>
+
+    <script src="javaScripts/indexScript.js"></script>
+</body>
+</html>
