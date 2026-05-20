@@ -1,6 +1,6 @@
 ﻿body
 {
-    height: 400vh;
+    max-height: 400vh;
 }
 
 /* ====Первая секция main====*/
@@ -19,10 +19,10 @@
 }
 
 .section_One-content {
-    background-color: cornflowerblue;
+    background-color: goldenrod;
     margin: 100px 0 0 0;
-    width: 75%;
-    height: 70%;
+    width: 70%;
+    height: 75%;
 }
 
 /* Стиль для отдела со спец предложением */
@@ -38,7 +38,6 @@
 }
 
 .section_Two-content {
-    background-color: cornflowerblue;
     margin: 5px 15px;
     width: 95%;
     height: 90%;
@@ -50,7 +49,6 @@
 }
 
 .special_CardHolder {
-    background-color: brown;
     margin: 0 10px;
     width: 85%;
     height: 50%;
@@ -63,18 +61,39 @@
 .special_Card {
     background-color: antiquewhite;
     width: 20%;
-    height: 100%;
+    height: 99%;
     border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
 .special_CardSec {
     height: 85%;
     width: 18%;
+    opacity: 0.8;
 }
 
 .special_CardThird {
     height: 75%;
     width: 16%;
+    opacity: 0.6;
+}
+
+.special_Card:hover {
+    opacity: 1;
+    height: 100%;
+    width: 21%;
+}
+
+.special_CardSec:hover {
+    width: 19%;
+    height: 90%;
+    opacity: 1;
+}
+
+.special_CardThird:hover {
+    height: 85%;
+    width: 18%;
+    opacity: 1;
 }
 
 .special-image {
@@ -98,42 +117,36 @@
 }
 
 .section_Four {
-    background-color: hotpink;
     flex-direction: column;
     display: flex;
     width: 100%;
     height: 100vh;
-    padding: 100px 20px 80px;
+    padding: 0 20px;
     align-items: center;
     text-align: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
     font-size: 35px;
 }
 
-
-
-@media (max-width: 900px)
-{
-    .special_CardHolder {
-        width: 100%;
-    }
-
-    .special-image {
-        width: 75%;
-    }
+.section_Four-content {
+    background-color: goldenrod;
+    width: 80%;
+    height: 80%;
 }
+
+
 
 @media (max-width: 720px)
 {
 
     body {
-        height: 200vh; /* ТелефоноЮзерам столько хватит */
+        max-height: 200vh; /* ТелефоноЮзерам столько хватит */
     }
 
     .section_One {
         font-size: 20px;
         justify-content: flex-start;
-        height: 50vh;
+        height: 40vh;
         padding: 70px 10px 10px 10px;
     }
 
@@ -145,21 +158,30 @@
 
     .section_Two {
         font-size: 10px;
-        height: 50vh;
+        height: 30vh;
+    }
+
+    .special_CardHolder {
+        height: 40%;
+        width: 98%;
+    }
+
+    .special_Card {
+        border-radius: 5px;
     }
 
     .section_Three {
-        font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 10px 10px;
+        display: none;
     }
 
     .section_Four {
         font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 10px 10px;
+        height: 40vh;
+    }
+
+    .section_Four-content {
+        width: 90%;
+        height: 70%;
     }
 }
 
@@ -169,7 +191,7 @@
     .section_One {
         font-size: 10px;
         justify-content: flex-start;
-        height: 50vh;
+        height: 40vh;
         padding: 60px 10px 10px 10px;
     }
 
@@ -181,21 +203,20 @@
 
     .section_Two {
         font-size: 10px;
-        height: 50vh;
+        height: 30vh;
+    }
+
+    .special_CardThird {
+        display: none;
     }
 
     .section_Three {
-        font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 10px 10px;
+        display: none;
     }
 
     .section_Four {
         font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 10px 10px;
+        height: 40vh;
     }
 }
 
@@ -204,7 +225,7 @@
     .section_One {
         font-size: 10px;
         justify-content: flex-start;
-        height: 50vh;
+        height: 40vh;
         padding: 50px 10px 5px 10px;
     }
 
@@ -216,20 +237,15 @@
 
     .section_Two {
         font-size: 10px;
-        height: 50vh;
+        height: 30vh;
     }
 
     .section_Three {
-        font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 5px 10px;
+        display: none;
     }
 
     .section_Four {
         font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 5px 10px;
+        height: 40vh;
     }
 }
