@@ -1,0 +1,182 @@
+﻿body
+{
+    height: 400vh;
+}
+
+/* ====Первая секция main====*/
+
+/* Первая секция, все элементы выравнены по центру в столбик*/
+.section_One {
+    background-color: forestgreen;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    padding: 100px 20px 80px;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 35px;
+}
+
+.section_One-content {
+    background-color: cornflowerblue;
+    margin: 100px 0 0 0;
+    width: 1080px;
+    height: 540px;
+}
+
+/* Пока что идентичные стили для остальных секций для проверки корректной работы */
+.section_Two {
+    background-color: red;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    padding: 100px 20px 80px;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 35px;
+}
+
+.section_Three {
+    background-color: mediumpurple;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    padding: 100px 20px 80px;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 35px;
+}
+
+.section_Four {
+    background-color: hotpink;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    padding: 100px 20px 80px;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 35px;
+}
+
+
+@media (max-width: 700px)
+{
+
+    body {
+        height: 200vh; /* ТелефоноЮзерам столько хватит */
+    }
+
+    .section_One {
+        font-size: 10px;
+        justify-content: space-between;
+        height: 50vh;
+        padding: 100px 10px 10px 10px;
+    }
+
+    .section_One-content {
+        height: 240px;
+        width: 480px;
+        margin: 50px;
+    }
+
+    .section_Two {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 10px 10px;
+    }
+
+    .section_Three {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 10px 10px;
+    }
+
+    .section_Four {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 10px 10px;
+    }
+}
+
+@media (max-width: 550px;)
+{
+
+    .section_One {
+        font-size: 10px;
+        justify-content: space-between;
+        height: 50vh;
+        padding: 100px 10px 10px 10px;
+        justify-content: space-between;
+    }
+
+    .section_One-content {
+        height: 240px;
+        width: 480px;
+        margin: 50px;
+    }
+
+    .section_Two {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 10px 10px;
+    }
+
+    .section_Three {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 10px 10px;
+    }
+
+    .section_Four {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 10px 10px;
+    }
+}
+
+@media (max-width: 440px;)
+{
+    .section_One {
+        font-size: 10px;
+        justify-content: space-between;
+        height: 50vh;
+        padding: 100px 10px 5px 10px;
+    }
+
+    .section_One-content {
+        height: 220px;
+        width: 320px;
+        margin: 50px;
+    }
+
+    .section_Two {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 5px 10px;
+    }
+
+    .section_Three {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 5px 10px;
+    }
+
+    .section_Four {
+        font-size: 10px;
+        justify-content: flex-start;
+        height: 50vh;
+        padding: 70px 10px 5px 10px;
+    }
+}
