@@ -22,21 +22,57 @@
 .section_One-content {
     background-color: cornflowerblue;
     margin: 100px 0 0 0;
-    width: 1080px;
-    height: 540px;
+    width: 75%;
+    height: 70%;
 }
 
-/* Пока что идентичные стили для остальных секций для проверки корректной работы */
+/* Стиль для отдела со спец предложением */
 .section_Two {
     background-color: red;
     flex-direction: column;
     display: flex;
     width: 100%;
     height: 100vh;
-    padding: 100px 20px 80px;
     align-items: center;
     justify-content: flex-start;
+    text-align: center;
     font-size: 35px;
+}
+
+.section_Two-content {
+    background-color: cornflowerblue;
+    margin: 5px 15px;
+    width: 95%;
+    height: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.special_CardHolder {
+    background-color: brown;
+    margin: 0 10px;
+    width: 85%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.special_Card {
+    background-color: antiquewhite;
+    width: 20%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.special-image {
+    background-color: goldenrod;
+    margin: 0 10px;
+    width: 65%;
+    height: 50%;
 }
 
 .section_Three {
@@ -47,6 +83,7 @@
     height: 100vh;
     padding: 100px 20px 80px;
     align-items: center;
+    text-align: center;
     justify-content: flex-start;
     font-size: 35px;
 }
@@ -59,10 +96,23 @@
     height: 100vh;
     padding: 100px 20px 80px;
     align-items: center;
+    text-align: center;
     justify-content: flex-start;
     font-size: 35px;
 }
 
+
+
+@media (max-width: 900px)
+{
+    .special_CardHolder {
+        width: 100%;
+    }
+
+    .special-image {
+        width: 75%;
+    }
+}
 
 @media (max-width: 720px)
 {
@@ -73,9 +123,9 @@
 
     .section_One {
         font-size: 20px;
-        justify-content: space-between;
+        justify-content: flex-start;
         height: 50vh;
-        padding: 100px 10px 10px 10px;
+        padding: 70px 10px 10px 10px;
     }
 
     .section_One-content {
@@ -86,9 +136,7 @@
 
     .section_Two {
         font-size: 10px;
-        justify-content: flex-start;
         height: 50vh;
-        padding: 70px 10px 10px 10px;
     }
 
     .section_Three {
@@ -111,9 +159,9 @@
 
     .section_One {
         font-size: 10px;
-        justify-content: space-between;
+        justify-content: flex-start;
         height: 50vh;
-        padding: 100px 10px 10px 10px;
+        padding: 60px 10px 10px 10px;
     }
 
     .section_One-content {
@@ -124,9 +172,7 @@
 
     .section_Two {
         font-size: 10px;
-        justify-content: flex-start;
         height: 50vh;
-        padding: 70px 10px 10px 10px;
     }
 
     .section_Three {
@@ -148,9 +194,9 @@
 {
     .section_One {
         font-size: 10px;
-        justify-content: space-between;
+        justify-content: flex-start;
         height: 50vh;
-        padding: 100px 10px 5px 10px;
+        padding: 50px 10px 5px 10px;
     }
 
     .section_One-content {
@@ -161,9 +207,7 @@
 
     .section_Two {
         font-size: 10px;
-        justify-content: flex-start;
         height: 50vh;
-        padding: 70px 10px 5px 10px;
     }
 
     .section_Three {
