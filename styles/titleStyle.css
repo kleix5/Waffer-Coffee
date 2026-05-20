@@ -61,7 +61,7 @@
 .special_Card {
     background-color: antiquewhite;
     width: 20%;
-    height: 100%;
+    height: 99%;
     border-radius: 15px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
@@ -69,11 +69,31 @@
 .special_CardSec {
     height: 85%;
     width: 18%;
+    opacity: 0.8;
 }
 
 .special_CardThird {
     height: 75%;
     width: 16%;
+    opacity: 0.6;
+}
+
+.special_Card:hover {
+    opacity: 1;
+    height: 100%;
+    width: 21%;
+}
+
+.special_CardSec:hover {
+    width: 19%;
+    height: 90%;
+    opacity: 1;
+}
+
+.special_CardThird:hover {
+    height: 85%;
+    width: 18%;
+    opacity: 1;
 }
 
 .special-image {
@@ -138,6 +158,10 @@
 
     .special_CardHolder {
         height: 40%;
+    }
+
+    .special_Card {
+        border-radius: 5px;
     }
 
     .section_Three {
