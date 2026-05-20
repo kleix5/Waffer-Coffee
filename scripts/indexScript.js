@@ -1,5 +1,4 @@
-﻿/ Получаем элементы
-const menuBtn = document.getElementById('menuBtn');
+﻿const menuBtn = document.getElementById('menuBtn');
 const dropdownMenu = document.getElementById('dropdownMenu');
 
 // При клике на кнопку меню показываем/скрываем выпадающий список
