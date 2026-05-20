@@ -163,6 +163,7 @@
 
     .special_CardHolder {
         height: 40%;
+        width: 98%;
     }
 
     .special_Card {
@@ -170,10 +171,7 @@
     }
 
     .section_Three {
-        font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 10px 10px;
+        display: none;
     }
 
     .section_Four {
@@ -208,11 +206,12 @@
         height: 30vh;
     }
 
+    .special_CardThird {
+        display: none;
+    }
+
     .section_Three {
-        font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 10px 10px;
+        display: none;
     }
 
     .section_Four {
@@ -242,10 +241,7 @@
     }
 
     .section_Three {
-        font-size: 10px;
-        justify-content: flex-start;
-        height: 50vh;
-        padding: 70px 10px 5px 10px;
+        display: none;
     }
 
     .section_Four {
