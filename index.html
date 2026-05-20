@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -7,103 +8,498 @@
     <title>ВаффлеВиль — магазин вафель</title>
     <link rel="stylesheet" href="styles/indexStyle.css" />
     <link rel="stylesheet" href="styles/titleStyle.css" />
-</head>
-<body>
+    <!-- ===== СТИЛИ ДЛЯ КОРЗИНЫ ===== -->
+    <style>
+        /* Позиционирование бейджа только для кнопки корзины */
+        #cartBtn {
+            position: relative;
+        }
 
-    <!-- ШАПКА САЙТА -->
-    <header class="header">
-        <div class="header-inner">
-            <!-- Левая часть: логотип + текст -->
-            <div class="header-left">
-                <a href="/" class="logo-link">
-                    <!--Go-->
-                    <img src="image/logo.png" alt="Логотип ВаффлеВиль" class="logo-img">
-                </a>
-                <span class="brand-name">ВаффлеВиль</span>
-            </div>
+        .cart-count-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #e25822;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 30px;
+            padding: 2px 7px;
+            min-width: 20px;
+            text-align: center;
+            display: none;
+            pointer-events: none;
+            font-family: system-ui, 'Segoe UI', sans-serif;
+        }
 
-            <!-- Поиск --><!--Go-->
-            <div class="header-center">
-                <form class="search-form" action="/search" method="GET">
-                    <input type="text" class="search-input" placeholder="Поиск вафель..." name="q">
-                    <button type="submit" class="search-button">
-                        <img src="image/loop.jpg" alt="Найти" class="search-icon">
+        /* Модальное окно корзины */
+        .cart-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s ease;
+        }
+
+            .cart-modal-overlay.active {
+                visibility: visible;
+                opacity: 1;
+            }
+
+        .cart-modal {
+            background: #fff9f0;
+            width: 90%;
+            max-width: 550px;
+            max-height: 80vh;
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+            font-family: system-ui, 'Segoe UI', sans-serif;
+        }
+
+        .cart-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            border-bottom: 2px solid #ffdfb5;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .cart-close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #b45f2b;
+        }
+
+        .cart-items-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            margin: 8px 0;
+            padding: 12px 16px;
+            border-radius: 60px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .cart-item-info {
+            flex: 2;
+        }
+
+        .cart-item-title {
+            font-weight: 700;
+        }
+
+        .cart-item-price {
+            font-size: 0.8rem;
+            color: #a5622c;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-qty-btn {
+            background: #f0dbbc;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .cart-remove-item {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .cart-footer {
+            padding: 16px 24px;
+            border-top: 2px solid #ffdfb5;
+            background: #fff3e4;
+            border-radius: 0 0 32px 32px;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .cart-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .cart-clear-btn, .cart-checkout-btn {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .cart-clear-btn {
+            background: #eedbbc;
+        }
+
+        .cart-checkout-btn {
+            background: #d9822b;
+            color: white;
+        }
+
+        .cart-empty-msg {
+            text-align: center;
+            padding: 40px;
+            color: #b48858;
+        }
+
+        /* Демо-блок для тестирования (позже удалите) */
+        .demo-products {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            font-family: system-ui;
+        }
+
+            .demo-products h3 {
+                margin-bottom: 20px;
+            }
+
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            background: #f5bc70;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+            .demo-btn:hover {
+                background: #e9a34a;
+            }
+
+        .notice {
+            font-size: 13px;
+            color: #7f6146;
+            margin-top: 15px;
+        }
+    </style>
+    </head>
+    <body>
+
+        <!-- ШАПКА САЙТА -->
+        <header class="header">
+            <div class="header-inner">
+                <!-- Левая часть: логотип + текст -->
+                <div class="header-left">
+                    <a href="/" class="logo-link">
+                        <!--Go-->
+                        <img src="image/logo.png" alt="Логотип ВаффлеВиль" class="logo-img">
+                    </a>
+                    <span class="brand-name">ВаффлеВиль</span>
+                </div>
+
+                <!-- Поиск --><!--Go-->
+                <div class="header-center">
+                    <form class="search-form" action="/search" method="GET">
+                        <input type="text" class="search-input" placeholder="Поиск вафель..." name="q">
+                        <button type="submit" class="search-button">
+                            <img src="image/loop.jpg" alt="Найти" class="search-icon">
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Правая часть --><!--Go-->
+                <div class="header-right">
+                    <!-- Кнопка 1: о нас -->
+                    <button class="icon-btn about-btn" id="aboutBtn">
+                        <img src="image/logo.png" alt="О нас" class="icon-img">
                     </button>
-                </form>
-            </div>
 
-            <!-- Правая часть --><!--Go-->
-            <div class="header-right">
-                <!-- Кнопка 1: о нас -->
-                <button class="icon-btn about-btn" id="aboutBtn">
-                    <img src="image/logo.png" alt="О нас" class="icon-img">
-                </button>
-
-                <!-- Кнопка 2: корзина -->
-                <button class="icon-btn" id="cartBtn">
-                    <img src="image/logo.png" alt="Корзина" class="icon-img">
-                </button>
-
-                <!-- Кнопка 3: выпадающее меню -->
-                <div class="dropdown">
-                    <button class="icon-btn" id="menuBtn">
-                        <img src="image/logo.png" alt="Меню" class="icon-img">
+                    <!-- Кнопка 2: корзина -->
+                    <button class="icon-btn" id="cartBtn">
+                        <img src="image/logo.png" alt="Корзина" class="icon-img">
+                        <span class="cart-count-badge" id="cartCountBadge">0</span>
                     </button>
-                    <div class="dropdown-content" id="dropdownMenu">
-                        <a href="/settings">⚙️ Настройки</a>
-                        <a href="/delivery">🚚 Доставка</a>
-                        <a href="/account">👤 Аккаунт</a>
+                    <div class="dropdown">
+                        <!-- Кнопка 3: выпадающее меню -->
+                        <div class="dropdown">
+                            <button class="icon-btn" id="menuBtn">
+                                <img src="image/logo.png" alt="Меню" class="icon-img">
+                            </button>
+                            <div class="dropdown-content" id="dropdownMenu">
+                                <a href="/settings">⚙️ Настройки</a>
+                                <a href="/delivery">🚚 Доставка</a>
+                                <a href="/account">👤 Аккаунт</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </header>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <main class="content">
+            <section class="section_One">
+                <h1>Добро пожаловать в ВаффлеВиль!!!</h1>
+                <div class="section_One-content"></div>
+            </section>
+            <section class="section_Two">
+                <h1>Специально для Вас!!!</h1>
+                <div class="section_Two-content">
+                    <div class="special_CardHolder">
+                        <div class="special_Card"></div>
+                        <div class="special_Card"></div>
+                        <div class="special_Card"></div>
+                        <div class="special_Card"></div>
+                        <div class="special_Card"></div>
+                    </div>
+                    <div class="special-image"></div>
+                </div>
+            </section>
+            <section class="section_Three"></section>
+            <section class="section_Four"></section>
+        </main>
+
+        <!-- ===== МОДАЛЬНОЕ ОКНО КОРЗИНЫ ===== -->
+        <div class="cart-modal-overlay" id="cartModal">
+            <div class="cart-modal">
+                <div class="cart-modal-header">
+                    <span> Моя корзина</span>
+                    <button class="cart-close-btn" id="cartCloseBtn">&times;</button>
+                </div>
+                <div class="cart-items-list" id="cartItemsList">
+                    <div class="cart-empty-msg">Корзина пуста</div>
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-total-row">
+                        <span>Итого:</span>
+                        <span id="cartTotalPrice">0 ₽</span>
+                    </div>
+                    <div class="cart-buttons">
+                        <button class="cart-clear-btn" id="cartClearBtn">Очистить</button>
+                        <button class="cart-checkout-btn" id="cartCheckoutBtn">Оформить заказ</button>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
-    <main class="content">
-        <!-- Первая секция, предназначенная для представления базовой информации о сайте, компании и привлечении людей -->
-        <section class="section_One">
-            <!-- Заголовок -->
-            <h1>Добро пожаловать в ВаффлеВиль!!!</h1>
-            <!-- Информация -->
-            <div class="section_One-content">
-                <!-- По изначальной задумке здесь будет будущее нашего приветствия -->
+        <script src="scripts/indexScript.js"></script>
+
+        <!-- ===== СКРИПТ КОРЗИНЫ (добавлен ниже, не конфликтует с вашим) ===== -->
+        <script>
+            let cart = [];
+
+            function saveCart() {
+            localStorage.setItem('waffle_cart', JSON.stringify(cart));
+            }
+            function loadCart() {
+            const saved = localStorage.getItem('waffle_cart');
+            if (saved) {
+            try {
+            cart = JSON.parse(saved);
+            } catch(e) { cart = []; }
+            } else cart = [];
+            renderCart();
+            updateCartBadge();
+            }
+
+            // Глобальная функция для добавления товара (используйте её в своих карточках)
+            window.addToCart = function(id, name, price) {
+            const existing = cart.find(item => item.id == id);
+            if (existing) {
+            existing.quantity++;
+            } else {
+            cart.push({ id: id, name: name, price: price, quantity: 1 });
+            }
+            saveCart();
+            renderCart();
+            updateCartBadge();
+            };
+
+            function changeQuantity(id, delta) {
+            const idx = cart.findIndex(item => item.id == id);
+            if (idx !== -1) {
+            const newQty = cart[idx].quantity + delta;
+            if (newQty <= 0) {
+            cart.splice(idx, 1);
+            } else {
+            cart[idx].quantity = newQty;
+            }
+            saveCart();
+            renderCart();
+            updateCartBadge();
+            }
+            }
+
+            function removeItem(id) {
+            cart = cart.filter(item => item.id != id);
+            saveCart();
+            renderCart();
+            updateCartBadge();
+            }
+
+            function clearCart() {
+            cart = [];
+            saveCart();
+            renderCart();
+            updateCartBadge();
+            }
+
+            function checkout() {
+            if (cart.length === 0) {
+            alert('Корзина пуста. Добавьте вафли!');
+            return;
+            }
+            const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+            alert(`Спасибо за заказ!\nСумма: ${total} ₽\nВаши вафли скоро будут готовы.`);
+            }
+
+            function renderCart() {
+            const container = document.getElementById('cartItemsList');
+            const totalSpan = document.getElementById('cartTotalPrice');
+            if (!container) return;
+
+            if (cart.length === 0) {
+            container.innerHTML = '<div class="cart-empty-msg">Ваша корзина пуста</div>';
+            totalSpan.innerText = '0 ₽';
+            return;
+            }
+
+            let total = 0;
+            let html = '';
+            cart.forEach(item => {
+            total += item.price * item.quantity;
+            html += `
+            <div class="cart-item">
+            <div class="cart-item-info">
+            <div class="cart-item-title">${escapeHtml(item.name)}</div>
+            <div class="cart-item-price">${item.price} ₽ × ${item.quantity}</div>
             </div>
-        </section>
-        <!-- Специальное предложения для зарегестрированных пользователей и Топ популярных товаров для Первышей -->
-        <section class="section_Two">
-            <h1>Специально для Вас!!!</h1>
-            <div class="section_Two-content">
-                <div class="special_CardHolder">
-                    <div class="special_Card">
-
-                    </div>
-                    <div class="special_Card">
-
-                    </div>
-                    <div class="special_Card">
-
-                    </div>
-                    <div class="special_Card">
-
-                    </div>
-                    <div class="special_Card">
-
-                    </div>
-                </div>
-                <div class="special-image">
-
-                </div>
+            <div class="cart-item-actions">
+            <button class="cart-qty-btn cart-dec" data-id="${item.id}">−</button>
+            <span style="min-width: 28px; text-align:center;">${item.quantity}</span>
+            <button class="cart-qty-btn cart-inc" data-id="${item.id}">+</button>
+            <button class="cart-remove-item" data-id="${item.id}">🗑️</button>
             </div>
-        </section>
-        <!-- Отзывы наших пользователей о том как все прекрасно (тооооочно не накрученные) -->
-        <section class="section_Three">
-        </section>
-        <!-- Информация о местоположении точки по приготовлению вафель (тооооочно существующей) -->
-        <section class="section_Four">
-        </section>
-    </main>
+            </div>
+            `;
+            });
+            container.innerHTML = html;
+            totalSpan.innerText = `${total} ₽`;
 
-    <script src="scripts/indexScript.js"></script>
-</body>
+            document.querySelectorAll('.cart-dec').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+            const id = parseInt(btn.dataset.id);
+            changeQuantity(id, -1);
+            });
+            });
+            document.querySelectorAll('.cart-inc').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+            const id = parseInt(btn.dataset.id);
+            changeQuantity(id, 1);
+            });
+            });
+            document.querySelectorAll('.cart-remove-item').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+            const id = parseInt(btn.dataset.id);
+            removeItem(id);
+            });
+            });
+            }
+
+            function updateCartBadge() {
+            const badge = document.getElementById('cartCountBadge');
+            if (badge) {
+            const totalQty = cart.reduce((sum, i) => sum + i.quantity, 0);
+            badge.innerText = totalQty;
+            badge.style.display = totalQty > 0 ? 'flex' : 'none';
+            }
+            }
+
+            function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+            });
+            }
+
+            // Управление модальным окном
+            const modal = document.getElementById('cartModal');
+            function openCart() {
+            renderCart();
+            modal.classList.add('active');
+            }
+            function closeCart() {
+            modal.classList.remove('active');
+            }
+
+            // Инициализация
+            document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+
+            const cartBtn = document.getElementById('cartBtn');
+            if (cartBtn) cartBtn.addEventListener('click', openCart);
+
+            const closeBtn = document.getElementById('cartCloseBtn');
+            if (closeBtn) closeBtn.addEventListener('click', closeCart);
+            modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeCart();
+            });
+
+            const clearBtn = document.getElementById('cartClearBtn');
+            if (clearBtn) clearBtn.addEventListener('click', clearCart);
+            const checkoutBtn = document.getElementById('cartCheckoutBtn');
+            if (checkoutBtn) checkoutBtn.addEventListener('click', checkout);
+
+            // Демо-кнопки (удалите этот блок после интеграции с реальными товарами)
+            document.querySelectorAll('.demo-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+            const id = parseInt(btn.dataset.id);
+            const name = btn.dataset.name;
+            const price = parseInt(btn.dataset.price);
+            window.addToCart(id, name, price);
+            });
+            });
+            });
+        </script>
+    </body>
 </html>
