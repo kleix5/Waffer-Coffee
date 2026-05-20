@@ -19,3 +19,9 @@ node_modules/
 dist/
 build/
 /.vs
+/styles/cartstyle.css
+/scripts/indexScript.js
+/styles/indexStyle.css
+/styles/titleStyle.css
+/README.md
+/server.go
