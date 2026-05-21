@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles/indexStyle.css" />
     <link rel="stylesheet" href="styles/titleStyle.css" />
     <link rel="stylesheet" href="styles/cartStyle.css" />
+    <link rel="stylesheet" href="styles/commentInStyle.css" />
     </head>
 <body>
 
@@ -65,10 +66,12 @@
 
     <!-- ====== ОСНОВНОЙ КОНТЕНТ ===== -->
     <main class="content">
+
         <section class="section_One">
             <h1>Добро пожаловать в ВаффлеВиль!!!</h1>
             <div class="section_One-content"></div>
         </section>
+
         <section class="section_Two">
             <h1>Специально для Вас!!!</h1>
             <div class="section_Two-content">
@@ -92,7 +95,29 @@
                 <div class="special-image"></div>
             </div>
         </section>
-        <section class="section_Three"></section>
+
+        <section class="section_Three">
+
+            <!-- Заголовок секции (опционально) -->
+            <h1>От наших любимых Клиентов</h1>
+
+            <!-- ========= БЛОК ОТЗЫВОВ (шахматка + ползунок с надписью) ========= -->
+            <div class="reviewsWidget">
+                <div class="reviewsWidget__columns">
+                    <div class="reviewsWidget__feed reviewsWidget__feed--top"></div>
+
+                    <div class="reviewsWidget__sliderArea">
+                        <div class="reviewsWidget__sliderWrap">
+                            <input type="range" class="reviewsWidget__range" min="0" max="100" value="0" step="1">
+                        </div>
+                    </div>
+
+                    <div class="reviewsWidget__feed reviewsWidget__feed--bottom"></div>
+                </div>
+            </div>
+
+        </section>
+
         <section class="section_Four">
             <div class="section_Four-content">
 
@@ -125,5 +150,6 @@
 
     <script src="scripts/indexScript.js"></script>
     <script src="scripts/cartScript.js"></script>
+    <script src="scripts/commentInTytle.js"></script>
 </body>
 </html>

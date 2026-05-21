@@ -1,0 +1,531 @@
+﻿ПОЛНОЕ ОБУЧЕНИЕ: Стили для блока отзывов с шахматным порядком
+
+    /// ДАННЫЙ ТЕКСТ БЫЛ НАПИСАН ПО СТАРОЙ ВЕРСИИ БЛОКА, ГДЕ ПОЛЗУНОК БЫЛ НАД БЛОКАМИ С ОТЗЫВАМИ, А НЕ МЕЖДУ НИМИ ///
+    /// ОН НУЖЕН ЧТОБЫ ПОЛНОСТЬЮ РАЗОБРАТЬСЯ В СТРУКТУРЕ НАПИСАНИЯ СТИЛЯ ДЛЯ БЛОКА С ОТЗЫВАМИ !РАЗРАБОТЧИКАМ!, А НЕ ПОЛЬЗОВАТЕЛЯМ ///
+
+
+БЛОК 1: КОРНЕВОЙ КОНТЕЙНЕР ВИДЖЕТА
+
+css
+.section_Three .reviewsWidget {
+    width: 100%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem 1.8rem;
+    position: relative;
+    overflow: visible;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+Что делает каждое свойство:
+Свойство	                        Значение	                            Объяснение
+.section_Three .reviewsWidget	    Составной селектор	                    Стиль действует ТОЛЬКО на элемент reviewsWidget внутри секции section_Three. Изоляция от других частей страницы
+width: 100%	                        100% от родителя	                    Растягивается на всю ширину родительского контейнера
+margin: 0 auto	                    0 сверху/снизу, auto слева/справа	    Горизонтальное центрирование (если родитель шире)
+background: rgba(255,255,255,0.9)	Белый с 90% непрозрачностью	            Сквозь блок слегка видно фон страницы (эффект "полупрозрачного стекла")
+padding: 2rem 1.8rem	            32px сверху/снизу, ~29px слева/справа	Внутренние отступы: воздух внутри блока. 1rem = 16px
+position: relative	                Относительное позиционирование	        Создаёт точку отсчёта для абсолютно позиционированных дочерних элементов
+overflow: visible	                Видимо всё	                            Части элементов, выходящие за границы, не обрезаются
+flex-shrink: 0	                    Не сжиматься	                        Если родитель — флекс-контейнер, блок сохранит свой размер
+box-sizing: border-box	            Границы и отступы входят в ширину	    width: 100% включает в себя padding и border
+
+Важно запомнить:
+
+    box-sizing: border-box делает расчёты ширины предсказуемыми
+
+    position: relative нужен только если внутри есть position: absolute
+
+    flex-shrink: 0 полезно, когда блок внутри флекс-контейнера
+
+
+
+БЛОК 2: ОБЛАСТЬ ПОЛЗУНКА
+
+css
+.section_Three .reviewsWidget__sliderArea {
+    margin: 2rem 0rem;
+    padding: 1.2rem 1.5rem;
+    border-radius: 60px;
+}
+
+Что делает каждое свойство:
+Свойство	                    Значение	                            Объяснение
+margin: 2rem 0rem	            32px сверху и снизу, 0 слева и справа	Вертикальные отступы от соседних элементов
+padding: 1.2rem 1.5rem	        ~19px сверху/снизу, 24px слева/справа	Внутренние отступы для воздуха вокруг ползунка
+border-radius: 60px	            Сильное скругление	                    При высоте ~56px даёт форму "капсулы"
+
+Зачем здесь отступы:
+
+    margin — отступы ОТ этого блока до других
+
+    padding — отступы ВНУТРИ этого блока до содержимого
+
+
+
+БЛОК 3: ОБЁРТКА ПОЛЗУНКА
+
+css
+.section_Three .reviewsWidget__sliderWrap {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    margin: 10px 0 10px;
+}
+
+Свойство	            Объяснение
+position: relative	    Точка отсчёта для дочерних абсолютных элементов
+width: 100%	            На всю ширину родителя
+height: 8px	            Высота дорожки ползунка (очень тонкая)
+margin: 10px 0 10px	    10px сверху, 0 по бокам, 10px снизу
+
+Почему обёртка?
+Нужна для правильного позиционирования кастомного бегунка и создания слоёв (z-index).
+
+
+
+БЛОК 4: САМ ПОЛЗУНОК (input range)
+
+css
+.section_Three .reviewsWidget__range {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    background: transparent;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+Ключевые моменты:
+Свойство	                Что делает	                        Почему это важно
+width: 100%	                Ширина на весь родитель	            Ползунок занимает всё доступное место
+height: 8px	                Высота 8 пикселей	                Совпадает с высотой дорожки
+-webkit-appearance: none	Убирает стандартный вид браузера	Без этого нельзя кастомизировать
+background: transparent	    Прозрачный фон	                    Дорожку рисуем через track
+pointer-events: auto	    Получает события мыши	            Можно кликать и перетаскивать
+z-index: 2	                Слой 2	                            Выше дорожки (у неё нет z-index), ниже бегунка (z-index: 3)
+
+Схема слоёв (z-index):
+
+    Бегунок (thumb): z-index: 3 — самый верхний
+
+    Сам ползунок: z-index: 2 — посередине
+
+    Дорожка (track): без z-index — внизу
+
+
+css
+.section_Three .reviewsWidget__range:focus {
+    outline: none;
+}
+
+Убирает голубую обводку вокруг ползунка при фокусе (клике или Tab). Важно: обычно outline нужен для доступности.
+
+
+
+БЛОК 5: ДОРОЖКА ТРЕКА (WebKit — Chrome, Edge, Safari)
+
+css
+.section_Three .reviewsWidget__range::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #a95d37, #834a20);
+    border-radius: 10px;
+}
+
+Что такое ::-webkit-slider-runnable-track?
+Псевдоэлемент для стилизации дорожки ползунка (линии, по которой движется бегунок).
+
+Свойство	                                            Объяснение
+width: 100%	                                            Дорожка на всю ширину
+height: 8px	                                            Толщина линии
+background: linear-gradient(90deg, #a95d37, #834a20)	Градиент слева направо от светло-оранжево-коричневого до тёмно-оранжево-коричневого
+border-radius: 10px	                                    Скруглённые края дорожки
+
+Цвета в градиенте:
+
+    #a95d37 — светлый терракотовый/оранжево-коричневый
+
+    #834a20 — тёмный шоколадно-оранжевый
+
+
+На каких браузерах работает:
+Chrome, Edge, Safari, Opera (все на движке WebKit/Blink)
+
+
+
+БЛОК 6: БЕГУНОК (WebKit)
+
+css
+.section_Three .reviewsWidget__range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 36px;
+    background: white;
+    border-radius: 40px;
+    border: 2px solid #ff7b54;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    margin-top: -14px;
+    position: relative;
+    z-index: 3;
+}
+
+Что такое ::-webkit-slider-thumb?
+Псевдоэлемент для стилизации бегунка (кнопки, которую таскают).
+
+Пошаговое объяснение:
+Свойство	                            Объяснение
+-webkit-appearance: none	            Убирает стандартный вид бегунка
+width: 100px	                        Ширина — 100 пикселей (широкий "язычок")
+height: 36px	                        Высота 36 пикселей
+background: white	                    Белый фон
+border-radius: 40px	                    Сильное скругление (почти овал)
+border: 2px solid #ff7b54	            Оранжевая рамка толщиной 2px
+box-shadow: 0 4px 12px rgba(0,0,0,0.2)	Тень: смещение вниз 4px, размытие 12px, чёрный с 20% прозрачности
+cursor: pointer	                        Рука при наведении
+margin-top: -14px	                    Важно! Сдвигает бегунок вверх на 14px для центрирования относительно дорожки (дорожка 8px, бегунок 36px)
+position: relative	                    Для z-index
+z-index: 3	                            Самый верхний слой (выше ползунка и дорожки)
+
+Почему margin-top: -14px?
+Расчёт: (36px - 8px) / 2 = 14px. Бегунок должен выступать на 14px вверх и вниз от дорожки.
+
+
+
+БЛОК 7: ДОРОЖКА И БЕГУНОК ДЛЯ FIREFOX
+
+css
+.section_Three .reviewsWidget__range::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #a95d37, #834a20);
+    border-radius: 10px;
+}
+
+Свойство	        Объяснение
+::-moz-range-track	Псевдоэлемент для дорожки в Firefox
+
+Остальные свойства	Те же, что и для WebKit
+
+css
+.section_Three .reviewsWidget__range::-moz-range-thumb {
+    width: 100px;
+    height: 36px;
+    background: white;
+    border-radius: 40px;
+    border: 2px solid #ff7b54;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+Отличие от WebKit	                Почему
+Нет margin-top	                    В Firefox выравнивание работает иначе
+Нет -webkit-appearance	            Firefox не требует
+Нет position: relative и z-index	Не нужны для корректной работы
+
+Почему нужно дублировать?
+Firefox использует другие псевдоэлементы. Без них ползунок останется стандартным.
+
+
+
+БЛОК 8: КОНТЕЙНЕР ДВУХ КОЛОНОК
+
+css
+.section_Three .reviewsWidget__columns {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+Свойство	            Объяснение
+display: flex	        Включает флекс-режим
+flex-direction: column	Расположение элементов В СТОЛБИК (один под другим)
+gap: 2rem	            Расстояние между верхним и нижним блоком с отзывами = 32px
+
+
+Визуально:
+┌─────────────────┐
+│  Верхний блок   │
+├─────────────────┤ ← gap: 2rem
+│  Нижний блок    │
+└─────────────────┘
+
+
+
+БЛОК 9: БЛОКИ С ОТЗЫВАМИ (ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ)
+
+css
+.section_Three .reviewsWidget__feed {
+    background: #ffffffcc;
+    backdrop-filter: blur(4px);
+    border-radius: 2rem;
+    padding: 1.5rem 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    scrollbar-width: thin;
+    min-height: 230px;
+    position: relative;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+Разбор каждого свойства:
+Свойство	                Значение	                            Объяснение
+background: #ffffffcc	    Белый с 80% непрозрачности	            cc в HEX = 204/255 ≈ 80%
+backdrop-filter: blur(4px)	Размытие фона за блоком	                Эффект "матового стекла"
+border-radius: 2rem	        ~32px	                                Скругление углов
+padding: 1.5rem 1rem	    24px сверху/снизу, 16px слева/справа	Воздух внутри блока
+overflow-x: auto	        Горизонтальный скролл при необходимости	Карточки шире контейнера — появляется скролл
+overflow-y: hidden	        Вертикальный скролл запрещён	        Контент не должен вылезать по вертикали
+scroll-behavior: smooth	    Плавная прокрутка	                    Анимированное перемещение
+display: flex	            Флекс-контейнер	                        Карточки в одну линию
+flex-direction: row	        В строку (горизонтально)	            Карточки слева направо
+gap: 1.5rem	                24px	                                Расстояние между карточками
+scrollbar-width: thin	    Тонкий скроллбар (Firefox)	            Но ниже переопределено на none
+min-height: 230px	        Минимальная высота 230px	            Не схлопывается, если контента мало
+position: relative	        Точка отсчёта	                        Для вложенных абсолютных элементов
+scrollbar-width: none	    Скрыть скроллбар в Firefox	            Прокрутка есть, полосы нет
+
+
+Трюк со скроллбарами:
+
+overflow-x: auto → прокрутка ЕСТЬ
+scrollbar-width: none → полосы НЕТ (Firefox)
+::-webkit-scrollbar { display: none } → полосы НЕТ (Chrome)
+
+Итог: пользователь может листать мышкой или тачем, но полоса прокрутки не видна. /// ОБМАН, ТРЮКА НЕ БУДЕТ, НЕ ВЕРЬТЕ ///
+
+css
+.section_Three .reviewsWidget__feed::-webkit-scrollbar {
+    display: none;
+}
+
+Скрывает скроллбар в Chrome, Edge, Safari.
+
+
+
+БЛОК 10: КАРТОЧКА ОТЗЫВА
+
+css
+.section_Three .reviewsWidget__comment {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    min-height: 240px;
+    justify-content: space-between;
+    flex-shrink: 0;
+    background: white;
+    border-radius: 28px;
+    padding: 1.8rem 1.5rem;
+    box-shadow: 0 12px 25px -8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f1f3f9;
+    white-space: normal;
+    transition: all 0.2s;
+}
+
+Детальное объяснение:
+Свойство	                                    Значение	            Что делает
+display: flex	                                flex	                Включаем флекс для вертикального расположения
+flex-direction: column	                        колонка	                Элементы (имя, текст, дата) — друг под другом
+width: 380px	                                380px	                Фиксированная ширина карточки
+min-height: 240px	                            минимум 240px	        Не схлопывается при коротком тексте
+justify-content: space-between	                пространство между	    Имя+текст сверху, дата прижимается вниз
+flex-shrink: 0	                                не сжиматься	        Карточка не уменьшается при нехватке места
+background: white	                            белый	                Фон карточки
+border-radius: 28px	                            28px	                Скругление углов
+padding: 1.8rem 1.5rem	                        ~29px 24px	            Внутренние отступы
+box-shadow: 0 12px 25px -8px rgba(0,0,0,0.1)	см. ниже	            Тень
+border: 1px solid #f1f3f9	                    1px	                    Очень светлая серая рамка
+white-space: normal	                            нормально	            Текст переносится на новую строку
+transition: all 0.2s	                        0.2 секунды	            Плавная анимация при наведении
+
+
+Как работает justify-content: space-between:
+┌─────────────────────────┐
+│ 🧇 Имя автора           │ ← начало
+│  Текст отзыва...        │
+│                         │ ← пространство
+│     12.05.2025          │ ← прижато вниз
+└─────────────────────────┘
+
+
+Разбор тени:
+box-shadow: 0 12px 25px -8px rgba(0, 0, 0, 0.1)
+            │  │     │    │
+            │  │     │    └─ цвет: чёрный с 10% прозрачности
+            │  │     └────── распространение: -8px (тень меньше блока)
+            │  └──────────── размытие: 25px
+            └─────────────── смещение по вертикали: 12px вниз
+
+
+
+БЛОК 11: КОНТЕНТНАЯ ОБЛАСТЬ (имя + текст)
+
+css
+.section_Three .reviewsWidget__comment-content {
+    flex: 1;
+}
+
+Свойство	        Объяснение
+flex: 1	            = flex-grow: 1 + flex-shrink: 1 + flex-basis: 0
+
+Что делает flex: 1:
+Занимает всё свободное пространство внутри родительского flex-контейнера. Благодаря этому дата (которая НЕ в этом блоке) прижимается вниз.
+
+Схема:
+Родитель (.reviewsWidget__comment) — display: flex, column
+├── .reviewsWidget__comment-content  (flex: 1) → занимает всё место
+│   ├── имя
+│   └── текст
+└── .reviewsWidget__commentDate      → прижат вниз
+
+
+
+БЛОК 12: ОРАНЖЕВЫЕ РАМКИ (ВИЗУАЛЬНЫЕ АКЦЕНТЫ)
+
+css
+.section_Three .reviewsWidget__feed--top .reviewsWidget__comment:not(.reviewsWidget__comment--empty) {
+    border-left: 6px solid #ff7b54;
+}
+
+.section_Three .reviewsWidget__feed--bottom .reviewsWidget__comment:not(.reviewsWidget__comment--empty) {
+    border-right: 6px solid #ffb26e;
+    background: #fef7e8;
+}
+
+Разбор селектора (самый сложный):
+
+css
+.section_Three .reviewsWidget__feed--top .reviewsWidget__comment:not(.reviewsWidget__comment--empty)
+
+Часть селектора	                        Что означает
+.section_Three	                        Внутри секции section_Three
+.reviewsWidget__feed--top	            Только верхний блок с отзывами
+.reviewsWidget__comment	                У карточек отзывов
+:not(.reviewsWidget__comment--empty)	ИСКЛЮЧАЯ пустые заглушки
+
+Что применяется:
+Блок	                Рамка	Цвет	                    Фон
+Верхний (--top)	        Слева	#ff7b54 (ярко-оранжевый)	Белый (по умолчанию)
+Нижний (--bottom)	    Справа	#ffb26e (тёплый оранжевый)	#fef7e8 (тёплый бежевый)
+Зачем разные цвета:
+
+Создаёт визуальный интерес и асимметрию, подчёркивает шахматный порядок.
+
+
+
+БЛОК 13: ПУСТЫЕ ЗАГЛУШКИ (ШАХМАТНЫЙ ПОРЯДОК)
+
+css
+.section_Three .reviewsWidget__comment--empty {
+    opacity: 0;
+    min-height: 240px;
+    display: flex;
+    pointer-events: none;
+}
+
+Свойство	            Что делает	                    Зачем
+opacity: 0	            Полностью прозрачные	        Не видны, но занимают место
+min-height: 240px	    Минимальная высота 240px	    Чтобы сетка не сбивалась (как у обычных)
+display: flex	        Флекс-контейнер	                Сохраняет ту же модель отображения
+pointer-events: none	Мышь не реагирует	            Нельзя кликнуть, не появляется курсор
+
+Как работает шахматный порядок:
+Верхний ряд:   [отзыв] [пусто] [отзыв] [пусто] ...
+Нижний ряд:    [пусто] [отзыв] [пусто] [отзыв] ...
+
+Пустые заглушки создаются скриптом, а CSS делает их невидимыми.
+
+
+
+БЛОК 14: ИМЯ АВТОРА
+
+css
+.section_Three .reviewsWidget__commentName {
+    font-weight: 800;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+Свойство	            Значение	Объяснение
+font-weight: 800	    800	        Жирнее стандартного bold (700)
+font-size: 1.2rem	    ~19px	    Крупнее базового текста
+display: flex	        flex	    Для выравнивания иконки и текста
+align-items: center	    по центру	Вертикальное выравнивание
+gap: 0.4rem	            ~6px	    Расстояние между иконкой и именем
+
+
+
+БЛОК 15: ИКОНКА ПЕРЕД ИМЕНЕМ (ПСЕВДОЭЛЕМЕНТ)
+
+css
+.section_Three .reviewsWidget__commentName::before {
+    content: "🧇";
+    font-size: 2rem;
+}
+
+Что такое ::before?
+Псевдоэлемент, который добавляет контент ПЕРЕД содержимым выбранного элемента.
+
+Свойство	        Объяснение
+content: "🧇"	    Вставляет эмодзи вафли (вместо звезды)
+font-size: 2rem	    Размер иконки = 32px
+
+
+
+БЛОК 16: ТЕКСТ ОТЗЫВА
+
+css
+.section_Three .reviewsWidget__commentText {
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #1e293b;
+}
+
+Свойство	            Значение	        Объяснение
+margin-top: 0.7rem	    ~11px	            Отступ сверху от имени
+font-size: 1rem       	16px	            Базовый размер шрифта
+line-height: 1.5	    1.5 × 16px = 24px	Межстрочный интервал
+color: #1e293b	        тёмно-сине-серый	Цвет текста
+
+Про line-height: 1.5:
+Без единиц (1.5) означает "1.5 от текущего размера шрифта". Это предпочтительный способ для accessibility.
+
+
+
+БЛОК 17: ДАТА ОТЗЫВА
+
+css
+.section_Three .reviewsWidget__commentDate {
+    margin-top: 0.7rem;
+    font-size: 0.8rem;
+    color: #7c8ba0;
+    text-align: right;
+}
+
+Свойство	            Объяснение
+margin-top: 0.7rem	    Отступ сверху (от текста отзыва)
+font-size: 0.8rem	    Мелкий шрифт (~13px)
+color: #7c8ba0	        Приглушённый серо-синий (менее контрастный)
+text-align: right	    Прижат к правому краю
+
+Почему дата справа и мелкая?
+Дата — второстепенная информация, не должна отвлекать от текста отзыва.
+
+
+
+СОГЛАШЕНИЕ ОБ ИМЕНАХ:
+
+    Блок: .reviewsWidget
+
+    Элемент: .reviewsWidget__sliderArea (два подчёркивания)
+
+    Модификатор: .reviewsWidget__feed--top (два дефиса)
