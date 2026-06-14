@@ -43,7 +43,7 @@
 
 .titleWafle_text {
     position: absolute;
-    width: 60%;
+    width: 55%;
     height: 50%;
     top: 35%;
     left: 50%;
@@ -64,7 +64,7 @@
     }
 
     .titleWafle_text p {
-        font-size: 1.2rem;
+        font-size: 2rem;
         color: black;
     }
 
@@ -72,7 +72,7 @@
     position: absolute;
     width: 30%;
     height: 15%;
-    top: 80%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -98,7 +98,6 @@
 
 .title_Maid {
     position: absolute;
-    right: 0;
     top: 0;
     width: 25%;
     height: 100%;
@@ -113,6 +112,16 @@
     height: 100%;
     object-fit: contain;
     transform: scale(1.3);
+}
+
+.title_Maid--left {
+    left: 0;
+    right: auto;
+}
+
+.title_Maid--right {
+    right: 0;
+    left: auto;
 }
 
 /* Стиль для отдела со спец предложением */
