@@ -19,13 +19,15 @@ type Maid struct {
 }
 
 var maids = []Maid{
-    {ID: 1, Name: "Sugar", WelcomeText: "Добро пожаловать в ВаффлеВиль, мир мечты и сладких вафель", ImagePath: "/image/Sugar.png", Position: "left"},
-    {ID: 2, Name: "Berry", WelcomeText: "Наши вафли готовятся только из натуральных продуктов", ImagePath: "/image/Berry.png", Position: "right"},
+    {ID: 1, Name: "Sugar", WelcomeText: "Добро пожаловать в ВаффлеВиль, мир мечты и сладких вафель", ImagePath: "../image/Sugar.png", Position: "left"},
+    {ID: 2, Name: "Berry", WelcomeText: "Наши вафли готовятся только из натуральных продуктов", ImagePath: "../image/Berry.png", Position: "right"},
+    {ID: 3, Name: "Milky", WelcomeText: "Вафли вафли и еще раз вафли", ImagePath: "../image/Milky.png", Position: "left"},
 }
 
 var chance = []float64 {
-    0.5, //Sugar
-    0.5, //Berry
+    0.3, //Sugar
+    0.3, //Berry
+    0.4, //Milky
 }
 
 func init() {
