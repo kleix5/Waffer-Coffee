@@ -159,11 +159,13 @@
 
 .special_Card {
     background-color: antiquewhite;
+    z-index: 1;
     width: 20%;
     height: 99%;
     border-radius: 15px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     transition: all 0.5s;
+    position: relative;
 }
 
 .special_CardSec {
@@ -197,6 +199,85 @@
     width: 18%;
     opacity: 1;
 }
+
+.special_Card-imageHold {
+    position: absolute;
+    width: 75%;
+    height: 60%;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+}
+
+.special_Card-imageHold-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.special_Card-discription {
+    position: absolute;
+    width: 75%;
+    height: 35%;
+    left: 50%;
+    bottom: 0%;
+    transform: translate(-50%, 0%);
+    text-align: center;
+}
+
+    .special_Card-discription h2 {
+        font-size: 2rem;
+        margin-top: 1rem;
+        color: black;
+    }
+
+    .special_Card-discription p {
+        font-size: 1.2rem;
+        color: black;
+    }
+
+/* Для второстепенных карточек */
+.special_CardSec .special_Card-discription h2 {
+    font-size: 1.8rem;
+    margin-top: 0.8rem;
+    transition: all 0.4s;
+}
+
+.special_CardSec .special_Card-discription p {
+    font-size: 1.1rem;
+    transition: all 0.4s;
+}
+
+.special_CardThird .special_Card-discription h2 {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    transition: all 0.3s;
+}
+
+.special_CardThird .special_Card-discription p {
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.special_CardSec:hover .special_Card-discription h2 {
+    font-size: 2rem;
+    margin-top: 0.8rem;
+}
+
+.special_CardSec:hover .special_Card-discription p {
+    font-size: 1.2rem;
+}
+
+.special_CardThird:hover .special_Card-discription h2 {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+}
+
+.special_CardThird:hover .special_Card-discription p {
+    font-size: 1.2rem;
+}
+
 
 .special-image {
     background-color: goldenrod;

@@ -18,10 +18,24 @@ type Maid struct {
     Position    string `json:"position"`
 }
 
+type Product struct {
+    ID          int      `json:"id"`
+    Name        string   `json:"name"`
+    Discription string   `json:"discription"`
+    Price       int      `json:"price"`
+    Tags        []string `json:"tags"`
+    ImagePath   string   `json:"imagePath"`
+}
+
 var maids = []Maid{
     {ID: 1, Name: "Sugar", WelcomeText: "Добро пожаловать в ВаффлеВиль, мир мечты и сладких вафель", ImagePath: "../image/Sugar.png", Position: "left"},
     {ID: 2, Name: "Berry", WelcomeText: "Наши вафли готовятся только из натуральных продуктов", ImagePath: "../image/Berry.png", Position: "right"},
     {ID: 3, Name: "Milky", WelcomeText: "Вафли вафли и еще раз вафли", ImagePath: "../image/Milky.png", Position: "left"},
+}
+
+var cardProducts = []Product {
+    {ID: 1, Name: "Вафли", Discription: "Просто вафли", Price: 150, Tags: []string{"мягкие", "тёплые", "нежные"}, ImagePath: "../image/WafleBase.JPG"},
+    {ID: 2, Name: "НеВафли", Discription: "Не просто вафли", Price: 100000, Tags: []string{"не мягкие", "не тёплые", "не нежные"}, ImagePath: "../image/WafleBase.JPG"},
 }
 
 var chance = []float64 {
