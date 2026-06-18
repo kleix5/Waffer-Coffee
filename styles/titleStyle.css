@@ -186,18 +186,21 @@
     opacity: 1;
     height: 100%;
     width: 21%;
+    cursor: pointer;
 }
 
 .special_CardSec:hover {
     width: 19%;
     height: 90%;
     opacity: 1;
+    cursor: pointer;
 }
 
 .special_CardThird:hover {
     height: 85%;
     width: 18%;
     opacity: 1;
+    cursor: pointer;
 }
 
 .special_Card-imageHold {

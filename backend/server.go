@@ -25,6 +25,7 @@ type Product struct {
     Price       int      `json:"price"`
     Tags        []string `json:"tags"`
     ImagePath   string   `json:"imagePath"`
+    OrdersCount int      `json:"-"`
 }
 
 var maids = []Maid{
@@ -34,9 +35,95 @@ var maids = []Maid{
 }
 
 var cardProducts = []Product {
-    {ID: 1, Name: "Вафли", Discription: "Просто вафли", Price: 150, Tags: []string{"мягкие", "тёплые", "нежные"}, ImagePath: "../image/WafleBase.JPG"},
-    {ID: 2, Name: "НеВафли", Discription: "Не просто вафли", Price: 100000, Tags: []string{"не мягкие", "не тёплые", "не нежные"}, ImagePath: "../image/WafleBase.JPG"},
+    {ID: 1, Name: "Вафли", Discription: "Просто вафли", Price: 150, Tags: []string{"мягкие", "тёплые", "нежные"}, ImagePath: "../image/WafleBase.JPG", OrdersCount: 120},
+    {ID: 2, Name: "НеВафли", Discription: "Не просто вафли", Price: 100000, Tags: []string{"не мягкие", "не тёплые", "не нежные"}, ImagePath: "../image/WafleBase.JPG", OrdersCount: -1},
+    {ID: 3, Name: "Ваффли", Discription: "Просто вафли", Price: 150, Tags: []string{"мягкие", "тёплые", "нежные"}, ImagePath: "../image/WafleBase.JPG", OrdersCount: 90},
+    {ID: 4, Name: "Ваафли", Discription: "Просто вафли", Price: 150, Tags: []string{"мягкие", "тёплые", "нежные"}, ImagePath: "../image/WafleBase.JPG", OrdersCount: 70},
+    {ID: 5, Name: "Ввафли", Discription: "Просто вафли", Price: 150, Tags: []string{"мягкие", "тёплые", "нежные"}, ImagePath: "../image/WafleBase.JPG", OrdersCount: 10},
 }
+
+func topProductsHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    
+    sorted := sortByPopularity(cardProducts)
+    
+    result := sorted
+    if len(result) > 5 {
+        result = result[:5]
+    }
+    
+    json.NewEncoder(w).Encode(result)
+}
+
+func sortByPopularity(items []Product) []Product {
+    sorted := make([]Product, len(items))
+    copy(sorted, items)
+    
+    for i := 0; i < len(sorted); i++ {
+        for j := i + 1; j < len(sorted); j++ {
+            if sorted[i].OrdersCount < sorted[j].OrdersCount {
+                sorted[i], sorted[j] = sorted[j], sorted[i]
+            }
+        }
+    }
+    return sorted
+}
+
+/* Вспомогательные функции, дабы в будущем при массивной БД товаров сделать карточки по тегам */
+func getUserFavoriteTags(userID string) []string {
+    // СЮДА ПОТОМ БУДЕТ ЗАПРОС К БД ПО ТЕГАМ, КОТОРЫЕ ЧАЩЕ ВСЕГО ЗАКАЗЫВАЕТ АККАУНТ
+    return []string{"мягкие", "тёплые"}
+}
+
+func getProductsByTags(allProducts []Product, tags []string) []Product {
+    var result []Product
+    
+    for _, p := range allProducts {
+        for _, tag := range tags {
+            if contains(p.Tags, tag) {
+                result = append(result, p)
+                break
+            }
+        }
+    }
+    return result
+}
+
+func contains(slice []string, item string) bool {
+    for _, s := range slice {
+        if s == item {
+            return true
+        }
+    }
+    return false
+}
+
+func removeDuplicates(items []Product, exclude []Product) []Product {
+    var result []Product
+    
+    for _, item := range items {
+        isExcluded := false
+        for _, ex := range exclude {
+            if item.ID == ex.ID {
+                isExcluded = true
+                break
+            }
+        }
+        if !isExcluded {
+            result = append(result, item)
+        }
+    }
+    return result
+}
+
+func shuffle(items []Product) {
+    for i := range items {
+        j := rand.Intn(i + 1)
+        items[i], items[j] = items[j], items[i]
+    }
+}
+/* --- */
 
 var chance = []float64 {
     0.3, //Sugar
@@ -144,11 +231,13 @@ func main() {
     
     // Регистрируем обработчики
     http.HandleFunc("/api/random-maid", randomMaidHandler)
+    http.HandleFunc("/api/productCards", topProductsHandler)
     http.HandleFunc("/", indexHandler)
     
     // Запускаем сервер
     fmt.Println("\n🚀 Сервер запущен на http://localhost:5000")
-    fmt.Println("📡 API: http://localhost:5000/api/random-maid")
+    fmt.Println("📡 API-Maids: http://localhost:5000/api/random-maid")
+    fmt.Println("📡 API-Cards_Speshl: http://localhost:5000/api/productCards")
     fmt.Println("\nНажми Ctrl+C для остановки")
     
     http.ListenAndServe(":5000", nil)
