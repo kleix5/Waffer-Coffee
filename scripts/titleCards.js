@@ -1,6 +1,6 @@
 ﻿async function fetchProducts() {
     try {
-        const response = await fetch('/api/productCards');
+        const response = await fetch('/api/top-products');
         if (!response.ok) {
             throw new Error('Ошибка загрузки товаров: ' + response.status);
         }
