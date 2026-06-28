@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВаффлеВиль — Настройки</title>
+    <link rel="stylesheet" href="styles/indexStyle.css" />
+    <link rel="stylesheet" href="styles/settingStyle.css" />
+    <link rel="stylesheet" href="styles/cartStyle.css" />
+    <link rel="stylesheet" href="styles/accStyle.css" />
+</head>
+<body>
+
+    <!-- ========== ШАПКА (ТОЧНО ТАКАЯ ЖЕ, КАК НА ГЛАВНОЙ) ========= -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="header-left">
+                <a href="/" class="logo-link">
+                    <img src="image/logo.png" alt="Логотип ВаффлеВиль" class="logo-img">
+                </a>
+                <span class="brand-name">ВаффлеВиль</span>
+            </div>
+            <div class="header-center">
+                <form class="search-form" action="/search" method="GET">
+                    <input type="text" class="search-input" placeholder="Поиск вафель..." name="q">
+                    <button type="submit" class="search-button">
+                        <img src="image/loop.jpg" alt="Найти" class="search-icon">
+                    </button>
+                </form>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn about-btn" id="aboutBtn">
+                    <img src="image/logo.png" alt="О нас" class="icon-img">
+                </button>
+                <button class="icon-btn" id="cartBtn">
+                    <img src="image/logo.png" alt="Корзина" class="icon-img">
+                    <span class="cart-count-badge" id="cartCountBadge">0</span>
+                </button>
+                <div class="dropdown">
+                    <button class="icon-btn" id="menuBtn">
+                        <img src="image/logo.png" alt="Меню" class="icon-img">
+                    </button>
+                    <div class="dropdown-content" id="dropdownMenu">
+                        <a href="settings.html">⚙️ Настройки</a>
+                        <a href="/delivery">🚚 Доставка</a>
+                        <a href="/catalog">📄 Каталог</a>
+                        <a href="/account">👤 Аккаунт</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== ОСНОВНОЙ КОНТЕНТ (НАСТРОЙКИ) ========= -->
+    <div class="settings-container">
+        <div class="settings-card">
+            <h1>⚙️ Настройки профиля</h1>
+            <div id="msgArea"></div>
+
+            <div class="settings-section">
+                <h2>Личные данные</h2>
+                <div class="setting-item">
+                    <label>Имя пользователя</label>
+                    <input type="text" id="username" placeholder="Как вас называть">
+                </div>
+                <div class="setting-item">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="example@mail.ru">
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Внешний вид</h2>
+                <div class="setting-item">
+                    <label>Тема оформления</label>
+                    <select id="theme">
+                        <option value="light">Светлая</option>
+                        <option value="dark">Тёмная</option>
+                        <option value="waffle">Вафельная (кремовая)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Уведомления</h2>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="notifyEmail"> Получать новости на почту</label>
+                    <label><input type="checkbox" id="notifyPromo"> Уведомления об акциях</label>
+                    <label><input type="checkbox" id="notifyOrder"> Статус заказа (SMS/Email)</label>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px;">
+                <button class="save-btn" id="saveBtn">💾 Сохранить настройки</button>
+                <button class="reset-btn" id="resetBtn">🔄 Сбросить</button>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html" class="back-link">← Вернуться на главную</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== МОДАЛЬНОЕ ОКНО КОРЗИНЫ ========= -->
+    <div class="cart-modal-overlay" id="cartModal">
+        <div class="cart-modal">
+            <div class="cart-modal-header">
+                <span>🧺 Моя корзина</span>
+                <button class="cart-close-btn" id="cartCloseBtn">&times;</button>
+            </div>
+            <div class="cart-items-list" id="cartItemsList">
+                <div class="cart-empty-msg">Корзина пуста</div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total-row">
+                    <span>Итого:</span>
+                    <span id="cartTotalPrice">0 ₽</span>
+                </div>
+                <div class="cart-buttons">
+                    <button class="cart-clear-btn" id="cartClearBtn">Очистить</button>
+                    <button class="cart-checkout-btn" id="cartCheckoutBtn">Оформить заказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ / ВХОДА -->
+    <div class="auth-modal-overlay" id="authModal">
+        <div class="auth-modal">
+            <div class="auth-modal-header">
+                <div class="auth-tabs">
+                    <button class="auth-tab" data-tab="login">🍬 Вход</button>
+                    <button class="auth-tab active" data-tab="register">✨ Регистрация</button>
+                </div>
+            </div>
+            <div class="auth-form-container">
+                <div id="loginForm" class="auth-form hidden">
+                    <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
+                    <input type="password" id="loginPassword" placeholder="Пароль" autocomplete="current-password">
+                    <button class="auth-btn" id="doLoginBtn">Войти</button>
+                    <div class="auth-message" id="loginMessage"></div>
+                </div>
+                <div id="registerForm" class="auth-form">
+                    <input type="text" id="regName" placeholder="Имя" autocomplete="name">
+                    <input type="email" id="regEmail" placeholder="Email" autocomplete="email">
+                    <input type="password" id="regPassword" placeholder="Пароль (минимум 6 символов)">
+                    <input type="password" id="regConfirm" placeholder="Подтвердите пароль">
+                    <button class="auth-btn" id="doRegisterBtn">Зарегистрироваться</button>
+                    <div class="auth-message" id="registerMessage"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/indexScript.js"></script>
+    <script src="scripts/settingScript.js"></script>
+    <script src="scripts/cartScript.js"></script>
+    <script src="scripts/accScript.js"></script>
+</body>
+</html>
