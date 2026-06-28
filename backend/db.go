@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // Глобальная переменная для доступа к БД
@@ -54,4 +55,50 @@ func GetTopProducts(limit int) ([]Product, error) {
 		products = append(products, p)
 	}
 	return products, nil
+}
+// Хэширование пароля
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(bytes), err
+}
+
+// Проверка пароля
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
+// Создание нового пользователя
+func CreateAccount(login, email, passwordHash, phone, address string) (int64, error) {
+	result, err := DB.Exec(`
+		INSERT INTO accounts (login, email, password_hash, phone, address) 
+		VALUES (?, ?, ?, ?, ?)
+	`, login, email, passwordHash, phone, address)
+	if err != nil {
+		return 0, err
+	}
+	return result.LastInsertId()
+}
+
+// Получение пользователя по логину или email
+func GetAccountByLoginOrEmail(loginOrEmail string) (*Account, error) {
+	var user Account
+	var passwordHash string
+	err := DB.QueryRow(`
+		SELECT id, login, email, password_hash, phone, address 
+		FROM accounts 
+		WHERE login = ? OR email = ?
+	`, loginOrEmail, loginOrEmail).Scan(
+		&user.ID,
+		&user.Login,
+		&user.Email,
+		&passwordHash,
+		&user.Phone,
+		&user.Address,
+	)
+	if err != nil {
+		return nil, err
+	}
+	user.PasswordHash = passwordHash // сохраняем хэш для проверки
+	return &user, nil
 }

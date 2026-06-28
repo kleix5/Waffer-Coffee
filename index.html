@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="styles/titleStyle.css" />
     <link rel="stylesheet" href="styles/cartStyle.css" />
     <link rel="stylesheet" href="styles/commentInStyle.css" />
-    </head>
+    <link rel="stylesheet" href="styles/accStyle.css" />
+</head>
 <body>
 
     <!-- ===== ШАПКА САЙТА ===== -->
@@ -57,7 +58,8 @@
                             <a href="/settings">⚙️ Настройки</a>
                             <a href="/delivery">🚚 Доставка</a>
                             <a href="/catalog">📄 Каталог</a>
-                            <a href="/account">👤 Аккаунт</a>
+                            <a href="#" id="accountLink">👤 Аккаунт</a>
+                            <a href="#" id="logoutLink" style="display: none;">🚪 Выйти</a>
                         </div>
                     </div>
                 </div>
@@ -147,6 +149,33 @@
             </div>
         </div>
     </div>
+    <!-- МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ / ВХОДА -->
+    <div class="auth-modal-overlay" id="authModal">
+        <div class="auth-modal">
+            <div class="auth-modal-header">
+                <div class="auth-tabs">
+                    <button class="auth-tab" data-tab="login">🍬 Вход</button>
+                    <button class="auth-tab active" data-tab="register">✨ Регистрация</button>
+                </div>
+            </div>
+            <div class="auth-form-container">
+                <div id="loginForm" class="auth-form hidden">
+                    <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
+                    <input type="password" id="loginPassword" placeholder="Пароль" autocomplete="current-password">
+                    <button class="auth-btn" id="doLoginBtn">Войти</button>
+                    <div class="auth-message" id="loginMessage"></div>
+                </div>
+                <div id="registerForm" class="auth-form">
+                    <input type="text" id="regName" placeholder="Имя" autocomplete="name">
+                    <input type="email" id="regEmail" placeholder="Email" autocomplete="email">
+                    <input type="password" id="regPassword" placeholder="Пароль (минимум 6 символов)">
+                    <input type="password" id="regConfirm" placeholder="Подтвердите пароль">
+                    <button class="auth-btn" id="doRegisterBtn">Зарегистрироваться</button>
+                    <div class="auth-message" id="registerMessage"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
@@ -155,5 +184,6 @@
     <script src="scripts/commentInTytle.js"></script>
     <script src="scripts/maidRoulette.js"></script>
     <script src="scripts/titleCards.js"></script>
+    <script src="scripts/accScript.js"></script>
 </body>
 </html>

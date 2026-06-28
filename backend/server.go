@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"path/filepath"
 	"time"
 )
@@ -27,6 +28,15 @@ type Product struct {
 	Tags          []string `json:"tags"`
 	ImagePath     string   `json:"imagePath"`
 	PurchaseCount int      `json:"-"` 
+}
+
+type Account struct {
+	ID           int    `json:"id"`
+	Login        string `json:"login"`
+	Email        string `json:"email"`
+	PasswordHash string `json:"-"` 
+	Phone        string `json:"phone,omitempty"`
+	Address      string `json:"address,omitempty"`
 }
 
 // ---------- Статические данные (горничные) ----------
@@ -77,13 +87,114 @@ func topProductsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(products)
 }
+// Регистрация нового пользователя
+func registerHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Метод не разрешён", http.StatusMethodNotAllowed)
+		return
+	}
 
+	var req struct {
+		Login    string `json:"login"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+		Phone    string `json:"phone"`
+		Address  string `json:"address"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Неверный JSON", http.StatusBadRequest)
+		return
+	}
+
+	// Проверка данных
+	if len(req.Login) < 3 {
+		http.Error(w, "Логин минимум 3 символа", http.StatusBadRequest)
+		return
+	}
+	if len(req.Password) < 6 {
+		http.Error(w, "Пароль минимум 6 символов", http.StatusBadRequest)
+		return
+	}
+
+	// Хэшируем пароль
+	hashedPassword, err := HashPassword(req.Password)
+	if err != nil {
+		http.Error(w, "Ошибка сервера", http.StatusInternalServerError)
+		return
+	}
+
+	// Сохраняем в БД
+	id, err := CreateAccount(req.Login, req.Email, hashedPassword, req.Phone, req.Address)
+	if err != nil {
+		// Проверяем, что ошибка из-за дубликата
+		if strings.Contains(err.Error(), "Duplicate entry") {
+			http.Error(w, "Пользователь с таким логином или email уже существует", http.StatusConflict)
+		} else {
+			http.Error(w, "Ошибка базы данных: "+err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"success": true,
+		"message": "Регистрация успешна",
+		"user": Account{
+			ID:      int(id),
+			Login:   req.Login,
+			Email:   req.Email,
+			Phone:   req.Phone,
+			Address: req.Address,
+		},
+	})
+}
+
+// Вход пользователя
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Метод не разрешён", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var req struct {
+		Login    string `json:"login"`
+		Password string `json:"password"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Неверный JSON", http.StatusBadRequest)
+		return
+	}
+
+	// Ищем пользователя
+	user, err := GetAccountByLoginOrEmail(req.Login)
+	if err != nil {
+		http.Error(w, "Неверный логин или пароль", http.StatusUnauthorized)
+		return
+	}
+
+	// Проверяем пароль
+	if !CheckPasswordHash(req.Password, user.PasswordHash) {
+		http.Error(w, "Неверный логин или пароль", http.StatusUnauthorized)
+		return
+	}
+
+	// Убираем хэш перед отправкой
+	user.PasswordHash = ""
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"success": true,
+		"message": "Вход выполнен",
+		"user":    user,
+	})
+}
 // Отдача HTML-файла
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
 	}
+
 	possiblePaths := []string{"../index.html", "./index.html", "index.html"}
 	var html []byte
 	var err error
@@ -142,6 +253,8 @@ func main() {
 	// 3. Роуты
 	http.HandleFunc("/api/random-maid", randomMaidHandler)
 	http.HandleFunc("/api/top-products", topProductsHandler)
+	http.HandleFunc("/api/register", registerHandler)   
+	http.HandleFunc("/api/login", loginHandler)   
 	http.HandleFunc("/", indexHandler)
 
 	// 4. Запуск

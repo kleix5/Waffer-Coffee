@@ -242,7 +242,7 @@
 
 /* Для второстепенных карточек */
 .special_CardSec .special_Card-discription h2 {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     margin-top: 0.8rem;
     transition: all 0.4s;
 }
@@ -253,7 +253,7 @@
 }
 
 .special_CardThird .special_Card-discription h2 {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     margin-top: 0.5rem;
     transition: all 0.3s;
 }
@@ -264,7 +264,7 @@
 }
 
 .special_CardSec:hover .special_Card-discription h2 {
-    font-size: 2rem;
+    font-size: 1.2rem;
     margin-top: 0.8rem;
 }
 
@@ -273,7 +273,7 @@
 }
 
 .special_CardThird:hover .special_Card-discription h2 {
-    font-size: 2rem;
+    font-size: 1.3rem;
     margin-top: 0.5rem;
 }
 
