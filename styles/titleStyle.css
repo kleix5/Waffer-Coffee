@@ -39,6 +39,7 @@
     background-size: 100px 100px;
     border: none;
     z-index: 1;
+    border-radius: 25px;
 }
 
 .titleWafle_text {
@@ -321,9 +322,64 @@
 }
 
 .section_Four-content {
-    background-color: goldenrod;
-    width: 80%;
+    width: 82%;
     height: 80%;
+    position: relative;
+}
+
+.lastWafle_bg {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    height: 90%;
+    background-image: url('img/Wafle.png');
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    border: none;
+    border-radius: 25px;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.textAboutUss {
+    position: absolute;
+    width: 90%;
+    height: 10%;
+    bottom: 0%;
+    transform: translate(5%, 0%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    text-align: center;
+    font-size: 8px;
+}
+
+.phonTxt {
+    position: absolute;
+    width: 60%;
+    height: 10%;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
+    padding: 20px;
+}
+
+.phonTxt-sec {
+    top: 55%;
+}
+
+.phonTxt-thd {
+    top: 70%;
 }
 
 
