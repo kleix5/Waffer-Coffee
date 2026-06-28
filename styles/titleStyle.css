@@ -281,12 +281,17 @@
     font-size: 1.2rem;
 }
 
-
 .special-image {
-    background-color: goldenrod;
     margin: 0 10px;
     width: 65%;
     height: 50%;
+}
+
+.spesh_Maid-img {
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(1.3) translateY(-45px);
 }
 
 /* ===== СЕКЦИЯ ТРИ ===== */

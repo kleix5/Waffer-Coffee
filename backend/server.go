@@ -192,6 +192,39 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     w.Write(html)
 }
 
+func pageHandler(filename string) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        if r.URL.Path != "/"+filename[:len(filename)-5] {
+            http.NotFound(w, r)
+            return
+        }
+        
+        possiblePaths := []string{
+            "../" + filename,
+            "./" + filename,
+            filename,
+        }
+        
+        var html []byte
+        var err error
+        
+        for _, path := range possiblePaths {
+            html, err = os.ReadFile(path)
+            if err == nil {
+                break
+            }
+        }
+        
+        if err != nil {
+            http.NotFound(w, r)
+            return
+        }
+        
+        w.Header().Set("Content-Type", "text/html; charset=utf-8")
+        w.Write(html)
+    }
+}
+
 func findStaticDir(paths ...string) string {
     for _, path := range paths {
         if _, err := os.Stat(path); err == nil {
@@ -233,6 +266,8 @@ func main() {
     http.HandleFunc("/api/random-maid", randomMaidHandler)
     http.HandleFunc("/api/productCards", topProductsHandler)
     http.HandleFunc("/", indexHandler)
+    http.HandleFunc("/settings", pageHandler("settings.html"))
+    http.HandleFunc("/catalog", pageHandler("catalog.html"))
     
     // Запускаем сервер
     fmt.Println("\n🚀 Сервер запущен на http://localhost:5000")
