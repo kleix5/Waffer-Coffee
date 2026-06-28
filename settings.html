@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ВаффлеВиль — Настройки</title>
     <link rel="stylesheet" href="styles/indexStyle.css" />
@@ -23,21 +23,21 @@
                 <form class="search-form" action="/search" method="GET">
                     <input type="text" class="search-input" placeholder="Поиск вафель..." name="q">
                     <button type="submit" class="search-button">
-                        <img src="image/loop.jpg" alt="Найти" class="search-icon">
+                        <p style="font-size: 20px">🔍</p>
                     </button>
                 </form>
             </div>
             <div class="header-right">
                 <button class="icon-btn about-btn" id="aboutBtn">
-                    <img src="image/logo.png" alt="О нас" class="icon-img">
+                    <p style="font-size: 25px">🛈</p>
                 </button>
                 <button class="icon-btn" id="cartBtn">
-                    <img src="image/logo.png" alt="Корзина" class="icon-img">
+                    <p style="font-size: 25px">🛒</p>
                     <span class="cart-count-badge" id="cartCountBadge">0</span>
                 </button>
                 <div class="dropdown">
                     <button class="icon-btn" id="menuBtn">
-                        <img src="image/logo.png" alt="Меню" class="icon-img">
+                        <p style="font-size: 25px">👤</p>
                     </button>
                     <div class="dropdown-content" id="dropdownMenu">
                         <a href="settings.html">⚙️ Настройки</a>
@@ -69,18 +69,6 @@
             </div>
 
             <div class="settings-section">
-                <h2>Внешний вид</h2>
-                <div class="setting-item">
-                    <label>Тема оформления</label>
-                    <select id="theme">
-                        <option value="light">Светлая</option>
-                        <option value="dark">Тёмная</option>
-                        <option value="waffle">Вафельная (кремовая)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="settings-section">
                 <h2>Уведомления</h2>
                 <div class="checkbox-group">
                     <label><input type="checkbox" id="notifyEmail"> Получать новости на почту</label>
@@ -104,7 +92,7 @@
     <div class="cart-modal-overlay" id="cartModal">
         <div class="cart-modal">
             <div class="cart-modal-header">
-                <span>🧺 Моя корзина</span>
+                <span>🛒 Моя корзина</span>
                 <button class="cart-close-btn" id="cartCloseBtn">&times;</button>
             </div>
             <div class="cart-items-list" id="cartItemsList">
@@ -124,7 +112,7 @@
     </div>
 
     <script src="scripts/indexScript.js"></script>
-    <script src="scripts/settingScript.js"></script>
+    <script src="scripts/settingScript.js" charset="UTF-8"></script>
     <script src="scripts/cartScript.js"></script>
 </body>
 </html>
