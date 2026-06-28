@@ -54,15 +54,15 @@ var chance = []float64{0.3, 0.3, 0.4}
 func randomMaidHandler(w http.ResponseWriter, r *http.Request) {
 	rand.Seed(time.Now().UnixNano())
 	rnd := rand.Float64()
-	cum := 0.0
+	cas := 0.0
 	var maid Maid
 	for i, m := range maids {
 		if i < len(chance) {
-			cum += chance[i]
+			cas += chance[i]
 		} else {
-			cum += 0.1
+			cas += 0.1
 		}
-		if rnd < cum {
+		if rnd < cas {
 			maid = m
 			break
 		}
